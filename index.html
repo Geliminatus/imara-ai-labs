@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Imara AI Labs — Autonomous Agents</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root { --grok: #00AA45; }
+    * { -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #0B0B0F; }
+    .display { font-family: 'Space Grotesk', sans-serif; }
+
+    /* ── Scroll-driven Macbook ── */
+    .scroll-stage { height: 320vh; position: relative; }
+    .sticky-wrap {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .lid {
+      transform-origin: bottom center;
+      transform: perspective(1200px) rotateX(25deg) translateY(0) scale(0.9);
+      will-change: transform;
+    }
+    .glow {
+      background: radial-gradient(circle at 50% 30%, rgba(0,170,69,0.18), transparent 60%);
+    }
+    .grid-bg {
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 40%, transparent 100%);
+    }
+    .reveal { opacity: 0; transform: translateY(28px); transition: all .7s cubic-bezier(.2,.7,.2,1); }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .agent-card { transition: transform .4s cubic-bezier(.2,.7,.2,1), border-color .4s, box-shadow .4s; }
+    .agent-card:hover { transform: translateY(-6px); }
+    .marquee { animation: marquee 22s linear infinite; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+  </style>
+</head>
+<body class="text-neutral-200 selection:bg-emerald-500/30">
+
+  <!-- NAV -->
+  <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-[#0B0B0F]/70 border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5">
+        <span class="grid place-items-center h-8 w-8 rounded-lg bg-emerald-500 text-black font-bold display">I</span>
+        <span class="display font-semibold tracking-tight text-white">Imara AI Labs</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8 text-sm text-neutral-400">
+        <a href="#agents" class="hover:text-white transition">Agents</a>
+        <a href="#how" class="hover:text-white transition">How it works</a>
+        <a href="#stack" class="hover:text-white transition">Stack</a>
+      </nav>
+      <a href="#agents" class="text-sm font-medium px-4 py-2 rounded-full bg-white text-black hover:bg-neutral-200 transition">Meet the agents</a>
+    </div>
+  </header>
+
+  <!-- HERO + SCROLL MACBOOK -->
+  <section class="scroll-stage">
+    <div class="sticky-wrap">
+      <div class="absolute inset-0 glow"></div>
+      <div class="absolute inset-0 grid-bg"></div>
+
+      <!-- Heading (fades as you scroll) -->
+      <div id="hero-copy" class="relative z-10 text-center px-6 max-w-3xl mb-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 mb-5 rounded-full border border-white/10 bg-white/5 text-xs text-neutral-400">
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          Tanzania-built · Autonomous AI agents
+        </div>
+        <h1 class="display text-4xl md:text-6xl font-bold tracking-tight text-white leading-[1.05]">
+          Agents that ship<br class="hidden md:block" /> real work.
+        </h1>
+        <p class="mt-4 text-neutral-400 md:text-lg max-w-xl mx-auto">
+          Imara AI Labs builds purpose-built AI agents on Claude. Scroll to open the lab.
+        </p>
+      </div>
+
+      <!-- Macbook -->
+      <div class="relative z-10 lid" id="lid">
+        <!-- Screen -->
+        <div class="rounded-[18px] border border-white/10 bg-[#0e0e13] p-2 shadow-2xl shadow-emerald-500/5"
+             style="width: min(78vw, 740px);">
+          <div class="rounded-[12px] overflow-hidden bg-black ring-1 ring-white/5 aspect-[16/10] relative">
+            <!-- camera -->
+            <div class="absolute top-1.5 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-white/20 z-20"></div>
+            <!-- screen content -->
+            <div class="absolute inset-0 grid grid-cols-2">
+              <div class="border-r border-white/5 p-5 flex flex-col justify-between bg-gradient-to-b from-[#0d130f] to-black">
+                <div>
+                  <div class="text-[10px] uppercase tracking-widest text-emerald-400/80">Agent · Jarvis</div>
+                  <div class="display text-white font-semibold mt-1">Security sweep</div>
+                </div>
+                <div class="space-y-1.5 text-[10px] font-mono text-emerald-300/70">
+                  <div>✓ scan ▸ 42 files</div>
+                  <div>✓ rbac ▸ enforced</div>
+                  <div class="text-amber-300/80">⚠ csp ▸ missing</div>
+                  <div class="text-white/80">▸ patching headers…</div>
+                </div>
+              </div>
+              <div class="p-5 flex flex-col justify-between bg-gradient-to-b from-[#0d0f13] to-black">
+                <div>
+                  <div class="text-[10px] uppercase tracking-widest text-sky-400/80">Agent · Johnive</div>
+                  <div class="display text-white font-semibold mt-1">UI compose</div>
+                </div>
+                <div class="grid grid-cols-3 gap-1.5">
+                  <div class="h-8 rounded bg-white/5"></div>
+                  <div class="h-8 rounded bg-emerald-500/20"></div>
+                  <div class="h-8 rounded bg-white/5"></div>
+                  <div class="h-8 rounded bg-sky-500/20"></div>
+                  <div class="h-8 rounded bg-white/5"></div>
+                  <div class="h-8 rounded bg-white/10"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Base / keyboard hint -->
+        <div class="mx-auto h-3 rounded-b-xl bg-gradient-to-b from-[#1a1a20] to-[#0c0c10] border-x border-b border-white/10"
+             style="width: min(82vw, 780px);"></div>
+        <div class="mx-auto h-1.5 rounded-b-2xl bg-[#070709]" style="width: min(40vw, 360px);"></div>
+      </div>
+
+      <p class="absolute bottom-8 text-xs text-neutral-600 z-10 animate-pulse">scroll to open ↓</p>
+    </div>
+  </section>
+
+  <!-- AGENTS -->
+  <section id="agents" class="relative py-28 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal text-center mb-16">
+        <h2 class="display text-3xl md:text-5xl font-bold text-white tracking-tight">Two agents. One lab.</h2>
+        <p class="mt-3 text-neutral-400 max-w-xl mx-auto">Each agent is specialized, tool-using, and built on Claude Opus 4.8.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- JARVIS -->
+        <div class="reveal agent-card group rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent p-8 hover:border-emerald-500/40 hover:shadow-2xl hover:shadow-emerald-500/10">
+          <div class="flex items-center justify-between mb-6">
+            <div class="grid place-items-center h-12 w-12 rounded-xl bg-emerald-500/15 text-emerald-400 text-2xl">🛡</div>
+            <span class="text-[11px] font-mono px-2.5 py-1 rounded-full border border-emerald-500/30 text-emerald-300">SECURITY</span>
+          </div>
+          <h3 class="display text-2xl font-semibold text-white">Jarvis</h3>
+          <p class="mt-2 text-neutral-400">A professional security engineer & pentester. Scans your codebase, proves vulnerabilities, fixes them, and verifies the fix.</p>
+          <ul class="mt-6 space-y-2.5 text-sm text-neutral-300">
+            <li class="flex gap-2.5"><span class="text-emerald-400">▸</span> OWASP Top 10 · RBAC · rate limiting</li>
+            <li class="flex gap-2.5"><span class="text-emerald-400">▸</span> SQLi · XSS · CSRF · CSP headers</li>
+            <li class="flex gap-2.5"><span class="text-emerald-400">▸</span> scan → report → fix → verify</li>
+          </ul>
+          <div class="mt-7 font-mono text-xs rounded-lg bg-black/50 border border-white/5 p-3 text-emerald-300/80">
+            <span class="text-neutral-500">you ▸</span> audit ~/kodismart-v2 and harden the RBAC
+          </div>
+        </div>
+
+        <!-- JOHNIVE -->
+        <div class="reveal agent-card group rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent p-8 hover:border-sky-500/40 hover:shadow-2xl hover:shadow-sky-500/10">
+          <div class="flex items-center justify-between mb-6">
+            <div class="grid place-items-center h-12 w-12 rounded-xl bg-sky-500/15 text-sky-400 text-2xl">🎨</div>
+            <span class="text-[11px] font-mono px-2.5 py-1 rounded-full border border-sky-500/30 text-sky-300">UI DESIGN</span>
+          </div>
+          <h3 class="display text-2xl font-semibold text-white">Johnive</h3>
+          <p class="mt-2 text-neutral-400">An expert UI designer that references Aceternity UI + shadcn/ui to design beautiful, animated interfaces for your systems.</p>
+          <ul class="mt-6 space-y-2.5 text-sm text-neutral-300">
+            <li class="flex gap-2.5"><span class="text-sky-400">▸</span> Next.js 16 · Tailwind v4 · shadcn/ui</li>
+            <li class="flex gap-2.5"><span class="text-sky-400">▸</span> Live Aceternity component fetching</li>
+            <li class="flex gap-2.5"><span class="text-sky-400">▸</span> copy-paste-ready TypeScript</li>
+          </ul>
+          <div class="mt-7 font-mono text-xs rounded-lg bg-black/50 border border-white/5 p-3 text-sky-300/80">
+            <span class="text-neutral-500">you ▸</span> design a hero with the macbook-scroll component
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="py-24 px-6 border-y border-white/5 bg-white/[0.015]">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="reveal display text-3xl md:text-4xl font-bold text-white text-center tracking-tight mb-14">Built to actually do the work</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="reveal rounded-xl border border-white/10 p-7">
+          <div class="display text-emerald-400 text-sm font-semibold mb-2">01 · Tooling</div>
+          <h3 class="text-white font-semibold mb-2">Real tools, not chat</h3>
+          <p class="text-neutral-400 text-sm">Each agent reads files, runs commands, searches code, and fetches docs — then acts.</p>
+        </div>
+        <div class="reveal rounded-xl border border-white/10 p-7">
+          <div class="display text-emerald-400 text-sm font-semibold mb-2">02 · Agentic loop</div>
+          <h3 class="text-white font-semibold mb-2">Plans across steps</h3>
+          <p class="text-neutral-400 text-sm">An adaptive-thinking loop on Claude Opus 4.8 keeps working until the task is done.</p>
+        </div>
+        <div class="reveal rounded-xl border border-white/10 p-7">
+          <div class="display text-emerald-400 text-sm font-semibold mb-2">03 · Verified</div>
+          <h3 class="text-white font-semibold mb-2">Checks its own work</h3>
+          <p class="text-neutral-400 text-sm">Jarvis re-runs audits; Johnive renders the UI. No blind output.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK MARQUEE -->
+  <section id="stack" class="py-16 overflow-hidden">
+    <p class="text-center text-xs uppercase tracking-widest text-neutral-600 mb-8">Powering the stack</p>
+    <div class="relative whitespace-nowrap">
+      <div class="marquee inline-flex gap-12 text-neutral-500 display text-xl font-medium">
+        <span>Claude Opus 4.8</span><span>Next.js 16</span><span>Tailwind CSS</span><span>shadcn/ui</span><span>Aceternity UI</span><span>Prisma</span><span>NextAuth v5</span><span>TZS</span>
+        <span>Claude Opus 4.8</span><span>Next.js 16</span><span>Tailwind CSS</span><span>shadcn/ui</span><span>Aceternity UI</span><span>Prisma</span><span>NextAuth v5</span><span>TZS</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-28 px-6">
+    <div class="reveal max-w-3xl mx-auto text-center rounded-3xl border border-white/10 bg-gradient-to-b from-emerald-500/10 to-transparent p-12">
+      <h2 class="display text-3xl md:text-4xl font-bold text-white tracking-tight">Imara — "be strong."</h2>
+      <p class="mt-4 text-neutral-400">Agents that scan, design, and ship. Built in Tanzania, running anywhere.</p>
+      <div class="mt-8 flex flex-wrap gap-3 justify-center">
+        <a href="#agents" class="px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-neutral-200 transition">Explore the agents</a>
+        <a href="mailto:geofreyeliminatus@gmail.com" class="px-6 py-3 rounded-full border border-white/15 text-white hover:bg-white/5 transition">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/5 py-10 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-neutral-500">
+      <div class="flex items-center gap-2.5">
+        <span class="grid place-items-center h-7 w-7 rounded-lg bg-emerald-500 text-black font-bold display text-sm">I</span>
+        <span class="display text-white font-medium">Imara AI Labs</span>
+      </div>
+      <p>© <span id="year"></span> Imara AI Labs · Agents: Jarvis · Johnive</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ── Scroll-driven macbook lid (replicates the Aceternity MacbookScroll feel) ──
+    const stage = document.querySelector('.scroll-stage');
+    const lid = document.getElementById('lid');
+    const heroCopy = document.getElementById('hero-copy');
+
+    function onScroll() {
+      const rect = stage.getBoundingClientRect();
+      const total = stage.offsetHeight - window.innerHeight;
+      // progress 0 → 1 across the sticky stage
+      const p = Math.min(1, Math.max(0, -rect.top / total));
+
+      // Lid opens (rotateX 25deg → 0), scales up, lifts slightly
+      const rotate = 25 - p * 25;
+      const scale = 0.9 + p * 0.35;
+      const lift = p * -40;
+      lid.style.transform = `perspective(1200px) rotateX(${rotate}deg) translateY(${lift}px) scale(${scale})`;
+
+      // Hero copy fades out in the first third of the scroll
+      const fade = Math.max(0, 1 - p * 2.4);
+      heroCopy.style.opacity = fade;
+      heroCopy.style.transform = `translateY(${ -p * 30 }px)`;
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+
+    // ── Reveal on scroll ──
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>
